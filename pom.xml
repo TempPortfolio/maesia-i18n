@@ -6,7 +6,7 @@
   
   <distributionManagement>
     <repository>
-      <id>maesia</id>
+      <id>fr.maesiamc.i18n</id>
       <url>https://maven.pkg.github.com/Maesia-Kingdoms/MaesiaI18n</url>
     </repository>
   </distributionManagement>
@@ -36,11 +36,18 @@
     </plugins>
   </build>
   
+  <repositories>
+    <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
+  
   <dependencies>
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.19-R0.1-SNAPSHOT</version>
+      <version>1.19.4-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
