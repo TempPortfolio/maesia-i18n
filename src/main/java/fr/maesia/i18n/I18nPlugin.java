@@ -21,14 +21,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/*
-
-format time
- 3y 3m 1w 2d 6h 20min 4sec 8ms 
-
-format date
-  06/06/2021
- */
 public class I18nPlugin extends JavaPlugin implements Listener, CommandExecutor, TabCompleter {
 	private static final Logger LOGGER = Logger.getLogger("I18nPlugin");
 	private NamespacedKey localeKey = null;
@@ -38,6 +30,7 @@ public class I18nPlugin extends JavaPlugin implements Listener, CommandExecutor,
 	
 	@Override
 	public void onEnable() {
+		I18nPlugin.INSTANCE = this;
 		this.saveDefaultConfig();
 		Configuration config = this.getConfig();
 		
@@ -120,7 +113,7 @@ public class I18nPlugin extends JavaPlugin implements Listener, CommandExecutor,
 	}
 	
 	public I18n getI18n() {
-		return null;
+		return this.i18n;
 	}
 	
 	public static String tl(String key, Object... replaces) {
