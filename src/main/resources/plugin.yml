@@ -1,0 +1,9 @@
+author: Sisko
+name: I18nPlugin
+version: ${project.version}
+main: fr.maesia.i18n.I18nPlugin
+commands:
+  localeset:
+    usage: /localeset <locale>
+    description: set your locale
+    permission: i18n.command.localeset
