@@ -7,3 +7,7 @@ commands:
     usage: /localeset <locale>
     description: set your locale
     permission: i18n.command.localeset
+permissions:
+  maesia.i18n.player:
+    children:
+      i18n.command.localeset: true

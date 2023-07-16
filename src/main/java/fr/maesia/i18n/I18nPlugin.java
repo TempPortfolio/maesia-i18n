@@ -35,11 +35,10 @@ public class I18nPlugin extends JavaPlugin implements Listener, CommandExecutor,
 		Configuration config = this.getConfig();
 		
 		Object configDefaultLocale = config.getString("locale.default", "fr_FR");
+		I18nProvider.get().setDefaultLocale(configDefaultLocale);
 		
 		try {
 			this.i18n = I18nProvider.get().getI18n(this);
-			I18nProvider.get().setDefaultLocale(configDefaultLocale);
-			
 			I18nProvider.get().loadTranslation(this, "/fr_FR.properties");
 		} catch (IOException e) {
 			LOGGER.severe("Can't load language files !");
