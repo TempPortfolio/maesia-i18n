@@ -30,7 +30,7 @@ public class TimeModifier implements Modifier<Time> {
 			ms -= year * 31536000000l;
 			
 			if(year > 0)
-				value += this.tl(locale, "format.time.year", year, concise, year == 1 ? 0 : 1);
+				value += " " + this.tl(locale, "format.time.year", year, concise, year == 1 ? 0 : 1);
 		}
 		
 		if(time.isAllowed(Unit.DAY) && (precision--) > 0) {
@@ -38,7 +38,7 @@ public class TimeModifier implements Modifier<Time> {
 			ms -= day * 86400000l;
 
 			if(day > 0)
-				value += this.tl(locale, "format.time.day", day, concise, day == 1 ? 0 : 1);
+				value += " " + this.tl(locale, "format.time.day", day, concise, day == 1 ? 0 : 1);
 		}
 		
 		if(time.isAllowed(Unit.HOUR) && (precision--) > 0) {
@@ -46,7 +46,7 @@ public class TimeModifier implements Modifier<Time> {
 			ms -= hour * 3600000l;
 
 			if(hour > 0)
-				value += this.tl(locale, "format.time.hour", hour, concise, hour == 1 ? 0 : 1);
+				value += " " + this.tl(locale, "format.time.hour", hour, concise, hour == 1 ? 0 : 1);
 		}
 		
 		if(time.isAllowed(Unit.MINUTE) && (precision--) > 0) {
@@ -54,7 +54,7 @@ public class TimeModifier implements Modifier<Time> {
 			ms -= minute * 60000l;
 
 			if(minute > 0)
-				value += this.tl(locale, "format.time.minute", minute, concise, minute == 1 ? 0 : 1);
+				value += " " + this.tl(locale, "format.time.minute", minute, concise, minute == 1 ? 0 : 1);
 		}
 		
 		if(time.isAllowed(Unit.SECOND) && (precision--) > 0) {
@@ -62,10 +62,10 @@ public class TimeModifier implements Modifier<Time> {
 			ms -= ms * 1000;
 			
 			if(second > 0)
-				value += this.tl(locale, "format.time.second", second, concise, second == 1 ? 0 : 1);
+				value += " " + this.tl(locale, "format.time.second", second, concise, second == 1 ? 0 : 1);
 		}
 		
-		return value;
+		return value.replaceFirst(" ", "");
 	}
 	
 	private Map<String, String[]> load(Object locale) {
@@ -77,7 +77,7 @@ public class TimeModifier implements Modifier<Time> {
 			for(String str : Arrays.asList("year", "month", "week", "day", "hour", "minute", "second")) {
 				String key = "format.time." + str;
 				String tl = I18nPlugin.get().getI18n().translate(locale, key);
-				String[] values = removeFirstOfFour(tl.replaceAll(" ", "").split("[a-z]\\:"));
+				String[] values = removeFirstOfFour(tl.split("([a-z]|( [a-z]))\\:"));
 				tls.put(key, values);
 			}
 			
