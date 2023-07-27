@@ -79,9 +79,6 @@ public class TimeModifier implements Modifier<Time> {
 				String tl = I18nPlugin.get().getI18n().translate(locale, key);
 				String[] values = removeFirstOfFour(tl.replaceAll(" ", "").split("[a-z]\\:"));
 				tls.put(key, values);
-				String valuesToString = "[";
-				for(String ts : values) valuesToString += ts + ",";
-				LOGGER.info("Locale=" + locale + " key=" + key + " message=" + tl + " splited_message=" + valuesToString + "]");
 			}
 			
 			this.translations.put(locale, tls);
@@ -94,11 +91,6 @@ public class TimeModifier implements Modifier<Time> {
 		Map<String, String[]> tls = this.load(locale);
 		
 		String[] messages = tls.get(key);
-		
-		LOGGER.info("user tl locale=" + locale + " key=" + key + " length=" + (messages == null ? "NULL" : messages.length));
-		
-		for(String message : messages)
-			LOGGER.info("  -> " + message);
 		
 		if(messages == null || messages.length != 3) {
 			LOGGER.warning("Can't use key '" + key + "' with locale '" + locale + "'");
