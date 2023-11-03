@@ -13,10 +13,13 @@ import fr.maesia.i18n.economy.EconomyModifier;
 import fr.maesia.i18n.time.Time;
 import fr.maesia.i18n.time.TimeModifier;
 
+/**
+ * Implementation of I18n.
+ */
 public class I18nImpl implements I18n {
-	private static final Logger LOGGER = Logger.getLogger("I18n");
+	private static final Logger LOGGER = Logger.getLogger("I18nImpl");
 
-	//               Locale      Key      Message
+	//                Locale      Key     Message
 	private final Map<Object, Map<String, String>> translations;
 	private final Map<Class<?>, Modifier<?>> modifiers = new HashMap<>();
 	private Object defaultLocale;
@@ -25,8 +28,8 @@ public class I18nImpl implements I18n {
 		this.translations = translations;
 		this.defaultLocale = defaultLocale;
 		
-		this.addModifier(Time.class, new TimeModifier());
-		this.addModifier(Eco.class, new EconomyModifier());
+		this.addModifier(Time.class, new TimeModifier(this));
+		this.addModifier(Eco.class, new EconomyModifier(this));
 	}
 	
 	public <T> void addModifier(Class<T> target, Modifier<T> modifier) {

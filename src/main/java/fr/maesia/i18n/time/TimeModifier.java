@@ -5,12 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import fr.maesia.i18n.I18nPlugin;
+import fr.maesia.i18n.I18n;
 import fr.maesia.i18n.Modifier;
 
 public class TimeModifier implements Modifier<Time> {
 	private static final Logger LOGGER = Logger.getLogger("TimeModifier");
+	private final I18n i18n;
 	private Map<Object, Map<String, String[]>> translations = new HashMap<>();
+	
+	public TimeModifier(I18n i18n) {
+		this.i18n = i18n;
+	}
 	
 	@Override
 	public Object modify(Object locale, Time time) {
@@ -24,6 +29,7 @@ public class TimeModifier implements Modifier<Time> {
 		long ms = time.getTime();
 		int precision = time.getPrecision();
 		String value = "";
+		
 		
 		if(time.isAllowed(Unit.YEAR) && (precision--) > 0) {
 			year = ms / 31536000000l;
@@ -76,7 +82,7 @@ public class TimeModifier implements Modifier<Time> {
 			
 			for(String str : Arrays.asList("year", "month", "week", "day", "hour", "minute", "second")) {
 				String key = "format.time." + str;
-				String tl = I18nPlugin.get().getI18n().translate(locale, key);
+				String tl = this.i18n.translate(locale, key);
 				String[] values = removeFirstOfFour(tl.split("([a-z]|( [a-z]))\\:"));
 				tls.put(key, values);
 			}
@@ -96,6 +102,9 @@ public class TimeModifier implements Modifier<Time> {
 			LOGGER.warning("Can't use key '" + key + "' with locale '" + locale + "'");
 			return key;
 		}
+		
+		if(concise)
+			index = 2;
 		
 		return replace + messages[index];
 	}

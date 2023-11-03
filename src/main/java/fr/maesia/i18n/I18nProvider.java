@@ -12,11 +12,28 @@ import java.util.Map;
 
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Load UTF-8 translation properties files.
+ * Provide I18n objects.
+ */
 public final class I18nProvider {
 	//                Plugin      Locale      Key     Message
 	private final Map<Plugin, Map<Object, Map<String, String>>> translations = new HashMap<>();
-	private Object defaultLocale = null;
-
+	private Object defaultLocale = "";
+	
+	/**
+	 * Add translation for specified plugin
+	 * by reading file referred by path.
+	 * The locale must be the name of the file.
+	 * The file must be UTF-8 properties.
+	 * The file must be in source plugin.
+	 * 
+	 * Example of file name : an_US.properties
+	 * 
+	 * @param plugin
+	 * @param path in source
+	 * @throws IOException
+	 */
 	public void loadTranslation(Plugin plugin, String path) throws IOException {
 		String callerClassName = Thread.currentThread().getStackTrace()[2].getClassName();
 
@@ -35,22 +52,49 @@ public final class I18nProvider {
 			this.addTranslation(plugin, locale, in);
 		}
 	}
-
+	
+	/**
+	 * Set default locale that will be given
+	 * at each new I18n.
+	 * 
+	 * @param locale
+	 */
 	public void setDefaultLocale(Object locale) {
 		this.defaultLocale = locale;
 	}
-
+	
+	/**
+	 * Get default locale.
+	 * 
+	 * @return default locale
+	 */
 	public Object getDefaultLocale() {
 		return this.defaultLocale;
 	}
-
+	
+	/**
+	 * Get I18n who contains all registered translations
+	 * by the specified plugin.
+	 * 
+	 * @param plugin
+	 * @return I18n
+	 */
 	public I18n getI18n(Plugin plugin) {
 		if(!translations.containsKey(plugin))
 			translations.put(plugin, new HashMap<>());
 
 		return new I18nImpl(translations.get(plugin), this.defaultLocale);
 	}
-
+	
+	/**
+	 * Add translation for specified plugin and locale
+	 * by reading properties formated File in UTF-8
+	 * 
+	 * @param plugin who add translation
+	 * @param locale
+	 * @param reader
+	 * @throws IOException
+	 */
 	public void addTranslations(Plugin plugin, Object locale, File file) throws IOException {
 		try(BufferedReader reader = Files.newBufferedReader(file.toPath())) {
 			addTranslation(plugin, locale, reader);
@@ -59,11 +103,29 @@ public final class I18nProvider {
 			throw exception;
 		}
 	}
-
+	
+	/**
+	 * Add translation for specified plugin and locale
+	 * by reading properties formated InputStream in UTF-8
+	 * 
+	 * @param plugin who add translation
+	 * @param locale
+	 * @param reader
+	 * @throws IOException
+	 */
 	public void addTranslation(Plugin plugin, Object locale, InputStream in) throws UnsupportedEncodingException, IOException {
 		this.addTranslation(plugin, locale, new BufferedReader(new InputStreamReader(in, "UTF-8")));
 	}
-
+	
+	/**
+	 * Add translation for specified plugin and locale
+	 * by reading properties formated reader in UTF-8
+	 * 
+	 * @param plugin who add translation
+	 * @param locale
+	 * @param reader
+	 * @throws IOException
+	 */
 	public void addTranslation(Plugin plugin, Object locale, BufferedReader reader) throws IOException {
 		if(!this.translations.containsKey(plugin))
 			this.translations.put(plugin, new HashMap<>());
@@ -107,11 +169,11 @@ public final class I18nProvider {
 			readln = false;
 		}
 
-		if(this.defaultLocale == null)
+		if(this.defaultLocale.toString().isEmpty())
 			this.defaultLocale = locale;
 	}
-
-	private static I18nProvider INSTANCE = new I18nProvider();
+	
+	private static final I18nProvider INSTANCE = new I18nProvider();
 	public static I18nProvider get() {
 		return I18nProvider.INSTANCE;
 	}

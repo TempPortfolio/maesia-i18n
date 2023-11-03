@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import fr.maesia.i18n.I18nPlugin;
+import fr.maesia.i18n.I18n;
 import fr.maesia.i18n.Modifier;
 
 public class EconomyModifier implements Modifier<Eco> {
@@ -14,6 +14,12 @@ public class EconomyModifier implements Modifier<Eco> {
 		units.put(3, "format.eco.kilo");
 		units.put(6, "format.eco.million");
 		units.put(9, "format.eco.billion");
+	}
+	
+	private final I18n i18n;
+	
+	public EconomyModifier(I18n i18n) {
+		this.i18n = i18n;
 	}
 	
 	@Override
@@ -39,6 +45,6 @@ public class EconomyModifier implements Modifier<Eco> {
 	}
 	
 	public String tl(Object locale, String key, Object... replaces) {
-		return I18nPlugin.get().getI18n().translate(locale, key, replaces);
+		return this.i18n.translate(locale, key, replaces);
 	}
 }

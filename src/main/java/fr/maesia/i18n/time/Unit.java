@@ -19,7 +19,7 @@ public enum Unit {
 		for(Unit u : Unit.values())
 			if(u.id == id)
 				return u;
-		throw new RuntimeException("Unknow Unit id '" + id + "'");
+		throw new NullPointerException("Unknow Unit id '" + id + "'");
 	}
 	
 	public static Unit[] toUnits(String ids) {

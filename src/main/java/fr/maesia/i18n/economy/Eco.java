@@ -2,6 +2,9 @@ package fr.maesia.i18n.economy;
 
 import java.math.BigDecimal;
 
+/**
+ * Used to format economy amounts.
+ */
 public class Eco {
 	private final BigDecimal amount;
 	private boolean displayCurrency = true;

@@ -1,5 +1,8 @@
 package fr.maesia.i18n.time;
 
+/**
+ * Used to format time.
+ */
 public class Time {
 	private long time;
 	private int precision = Integer.MAX_VALUE;
